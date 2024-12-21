@@ -42,7 +42,7 @@ class CreateUserCommand extends Command
         $user->setCreatedAt(new \DateTime());
 
         // Hachage du mot de passe
-        $hashedPassword = $this->passwordEncoder->encodePassword($user, 'testpassword');
+        $hashedPassword = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setPassword($hashedPassword);
 
         // Sauvegarder l'utilisateur
