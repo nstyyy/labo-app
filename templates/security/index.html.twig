@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de connexion{% endblock %}
+
+{% block body %}
+<h2>Connexion</h2>
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
+<form method="post">
+    <div>
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <button type="submit">Se connecter</button>
+    </div>
+</form>
+{% endblock %}
