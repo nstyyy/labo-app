@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  // Import de useNavigate
 
-function Login() {
+function Login({ setUserRole }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [userRole, setUserRole] = useState('');
+  const navigate = useNavigate(); // Hook pour la navigation
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Reset error message
     setErrorMessage('');
 
     try {
@@ -19,18 +19,21 @@ function Login() {
         password
       });
 
-      // Si la connexion est réussie, afficher le rôle
       if (response.data.success) {
-        setUserRole(response.data.role);
-        alert(`Bienvenue, ${response.data.role}!`);
+        // Sauvegarde le rôle dans localStorage
+        localStorage.setItem('role', response.data.role);
+        setUserRole(response.data.role); // Met à jour le rôle dans l'état
+        // Redirection vers la page de matériel
+        navigate('/materiel'); // Redirection avec React Router
       } else {
         setErrorMessage('Nom d\'utilisateur ou mot de passe incorrect.');
       }
     } catch (err) {
-        setErrorMessage('Nom d\'utilisateur ou mot de passe incorrect.');
+      setErrorMessage('Erreur lors de la connexion.');
       console.error(err);
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
@@ -69,7 +72,6 @@ function Login() {
             Se connecter
           </button>
         </form>
-        {userRole && <p className="mt-4 text-center">Votre rôle : {userRole}</p>}
       </div>
     </div>
   );
